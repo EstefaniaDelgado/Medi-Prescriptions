@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --blue: #6c63ff;
+  --light-blue:#E8E5DA;
+  --medium-blue: #1a49a0;
+  --dark-blue: #0f2650;
+  --background-secondary: #26275d;
+  --background-btn: #e4bcd0;
+  --jet-dark-navbar:  #0f2650;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-blue: var(--blue);
+  --color-light-blue: var(--light-blue);
+  --color-medium-blue: var(--medium-blue);
+  --color-dark-blue: var(--dark-blue);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-btn: var(--background-btn);
+  --color-jet-dark-navbar: var(--jet-dark-navbar);
+
+  /* Typography */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--background) url('/light-background.svg') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: var(--background) url('/dark-background.svg') no-repeat center center fixed;
+    background-size: cover;
+  }
+}
+
+/* Card Container Styles */
+.card-container {
+  @apply bg-light-blue dark:bg-background-secondary mx-auto md:h-125 lg:h-110 mt-24 md:mt-28 md:mb-10 lg:px-4 rounded-xl w-11/12 max-w-6xl xl:h-120;
+}
+
+.card-container-inner{
+  @apply bg-light-blue dark:bg-background-secondary mx-auto my-4 lg:my-4 lg:px-4 rounded-xl w-11/12 max-w-6xl;
+}
+
+.main-header{
+  @apply text-4xl md:text-7xl font-extrabold text-dark-blue dark:text-blue
+}
+
+.navbar-container{
+  @apply bg-light-blue dark:bg-jet-dark-navbar shadow-lg border-b border-gray-200 dark:border-gray-700 mx-auto my-4 lg:my-4 lg:px-4 rounded-xl w-11/12 max-w-6xl;
+}
+
+/* Button Styles */
+.btn-primary {
+  @apply bg-background-btn text-dark-blue p-2 rounded-full text-lg font-semibold cursor-pointer border-0 transition-all duration-200 ease-in-out;
+}
+
+.btn-primary:hover {
+  @apply opacity-90 ;
+}
+
+.paragraph {
+  @apply text-lg md:text-xl text-dark-blue dark:text-white;
+}
