@@ -28,7 +28,7 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="card-container-inner p-6 flex justify-center items-center min-h-[400px]">
+      <div className="card-container-inner p-6 flex justify-center items-center min-h-100">
         <FaSpinner className="animate-spin text-blue-600" size={32} />
       </div>
     );
@@ -56,7 +56,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="card-container-inner p-6">
-      <div className="space-y-6">
+      <div className="space-y-6 mt-28">
         <h1 className="text-3xl font-bold text-dark-blue dark:text-blue">
           Dashboard Administrativo
         </h1>
@@ -144,7 +144,7 @@ export default function AdminDashboard() {
                 <div key={doctor.doctorId} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <div className="flex items-center gap-3">
                     <span className="text-lg font-bold text-blue-600 dark:text-blue-400">#{index + 1}</span>
-                    <span className="text-gray-900 dark:text-white">Doctor ID: {doctor.doctorId}</span>
+                    <span className="text-gray-900 dark:text-white">Doctor: {doctor.name}</span>
                   </div>
                   <span className="text-lg font-semibold text-green-600 dark:text-green-400">
                     {doctor.count} prescripciones
