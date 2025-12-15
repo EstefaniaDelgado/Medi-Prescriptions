@@ -41,33 +41,6 @@ El frontend consume la API desarrollada en NestJS y presenta flujos diferenciado
 
 ---
 
-## 📁 Estructura del Proyecto
-
-src/
-├── app/
-│ ├── login/
-│ ├── doctor/
-│ │ └── prescriptions/
-│ │ ├── page.tsx
-│ │ ├── new/
-│ │ └── [id]/
-│ ├── patient/
-│ │ └── prescriptions/
-│ │ ├── page.tsx
-│ │ └── [id]/
-│ └── admin/
-│ └── page.tsx
-├── components/
-├── lib/
-│ ├── fetcher.ts
-│ ├── auth.ts
-│ └── guards.ts
-├── store/
-└── styles/
-
-
----
-
 ## ⚙️ Variables de Entorno
 
 Crear un archivo `.env.local` en la raíz del proyecto:

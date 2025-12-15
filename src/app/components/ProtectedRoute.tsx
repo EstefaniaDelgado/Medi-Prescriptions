@@ -26,9 +26,9 @@ export const ProtectedRoute = ({
       return;
     }
 
-    if (allowedRoles.length > 0 && user?.user?.role) {
-      if (!allowedRoles.includes(user.user.role)) {
-        switch (user.user.role) {
+    if (allowedRoles.length > 0 && user?.role) {
+      if (!allowedRoles.includes(user.role)) {
+        switch (user.role) {
           case 'admin':
             router.push('/admin');
             break;
@@ -58,7 +58,7 @@ export const ProtectedRoute = ({
     return null;
   }
 
-  if (allowedRoles.length > 0 && user?.user?.role && !allowedRoles.includes(user.user.role)) {
+  if (allowedRoles.length > 0 && user?.role && !allowedRoles.includes(user.role)) {
     return null;
   }
 

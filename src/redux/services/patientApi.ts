@@ -1,14 +1,9 @@
+import { PatientPrescriptionDto, PatientProfileDto } from "@/src/types/patient/patient.dto";
 import { baseApi } from "./baseApi";
-import { patientEP } from "@/config/endpoints";
-import { 
-  PatientProfileDto, 
-  PatientPrescriptionDto 
-} from "@/types/patient/patient.dto";
-import { 
-  UpdatePrescriptionStatusDto,
-  PrescriptionResponseDto 
-} from "@/types/prescription/prescription.dto";
-import { ApiResponse } from "@/types/apiResponse";
+import { patientEP } from "@/src/config/endpoints";
+import { ApiResponse } from "@/src/types/apiResponse";
+import { PrescriptionResponseDto, UpdatePrescriptionStatusDto } from "@/src/types/prescription/prescription.dto";
+
 
 const patientApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -44,7 +39,7 @@ const patientApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: patientEP.downloadPrescription(id),
         method: "GET",
-        responseHandler: (response) => response.blob(),
+        responseHandler: (response: Response) => response.blob(),
       }),
     }),
   }),

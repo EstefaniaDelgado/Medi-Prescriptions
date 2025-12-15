@@ -16,18 +16,18 @@ export interface PrescriptionDayMetric {
   count: number;
 }
 
-export interface CreateUserDto {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  role: UserRole;
-  phone?: string;
-  specialization?: string;
-  licenseNumber?: string;
-  dateOfBirth?: string;
-  address?: string;
-}
+// export interface CreateUserDto {
+//   email: string;
+//   password: string;
+//   firstName: string;
+//   lastName: string;
+//   role: UserRole;
+//   phone?: string;
+//   specialization?: string;
+//   licenseNumber?: string;
+//   dateOfBirth?: string;
+//   address?: string;
+// }
 
 export interface AssignRoleDto {
   role: UserRole;

@@ -1,15 +1,9 @@
+import { DoctorPrescriptionDto, DoctorProfileDto, PatientSearchDto } from "@/src/types/doctor/doctor.dto";
 import { baseApi } from "./baseApi";
-import { doctorEP } from "@/config/endpoints";
-import { 
-  DoctorProfileDto, 
-  PatientSearchDto, 
-  DoctorPrescriptionDto 
-} from "@/types/doctor/doctor.dto";
-import { 
-  CreatePrescriptionDto, 
-  PrescriptionResponseDto 
-} from "@/types/prescription/prescription.dto";
-import { ApiResponse } from "@/types/apiResponse";
+import { doctorEP } from "@/src/config/endpoints";
+import { ApiResponse } from "@/src/types/apiResponse";
+import { CreatePrescriptionDto, PrescriptionResponseDto } from "@/src/types/prescription/prescription.dto";
+
 
 const doctorApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

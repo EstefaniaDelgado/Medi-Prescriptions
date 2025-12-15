@@ -13,11 +13,13 @@ export interface Patient {
 
 export interface PaginatedPatientsResponse {
   data: Patient[];
-  meta: {
-    total: number;
+  pagination: {
     page: number;
     limit: number;
+    total: number;
     totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
   };
 }
 

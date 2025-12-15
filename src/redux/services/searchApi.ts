@@ -1,7 +1,8 @@
+import { UserResponseDto } from "@/src/types/user/user.dto";
 import { baseApi } from "./baseApi";
-import { UserResponseDto } from "@/types/user/user.dto";
-import { PrescriptionResponseDto } from "@/types/prescription/prescription.dto";
-import { ApiResponse, PaginatedResponse } from "@/types/apiResponse";
+import { ApiResponse, PaginatedResponse } from "@/src/types/apiResponse";
+import { PrescriptionResponseDto } from "@/src/types/prescription/prescription.dto";
+
 
 interface SearchParams {
   query?: string;
