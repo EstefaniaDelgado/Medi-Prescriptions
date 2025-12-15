@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Poppins, Playfair_Display } from "next/font/google";
+import { ReduxProvider } from "@/src/redux/providers";
+import { AuthProvider } from "@/src/contexts/AuthContext";
+import Navbar from "@/src/app/components/Navbar";
 
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
-const playfairDisplay =  Playfair_Display({
+const playfairDisplay = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -35,7 +39,13 @@ export default function RootLayout({
       <body
         className={`${poppinsSans.variable} ${geistMono.variable} ${playfairDisplay.variable} antialiased`}
       >
-        {children}
+        <Toaster />
+        <ReduxProvider>
+          <AuthProvider>
+            <Navbar />
+            <main className="pt-16">{children}</main>
+          </AuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

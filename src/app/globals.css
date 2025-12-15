@@ -10,6 +10,11 @@
   --background-secondary: #26275d;
   --background-btn: #e4bcd0;
   --jet-dark-navbar:  #0f2650;
+  /* Color Cards Services */
+  --yellow-card:#ebde6c;
+  --purple-card:#e4bad2;
+  --blue-card:#94bcf0;
+  --green-card:#a7e0c0
 }
 
 @theme inline {
@@ -26,6 +31,12 @@
   /* Typography */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Cards Services */
+  --color-yellow-card: var(--yellow-card);
+  --color-purple-card: var(--purple-card);
+  --color-blue-card: var(--blue-card);
+  --color-green-card: var(--green-card);
 
 }
 

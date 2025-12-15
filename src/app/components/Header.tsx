@@ -7,7 +7,7 @@ export const Header = () => {
   return (
     <div className="relative flex flex-col card-container">
       <section className=" space-y-4 h-full pt-4 md:pt-5 w-full flex flex-col items-center">
-        <h1 className="main-header">MEDI-PRESCRIPTION</h1>
+        <h1 className="main-header">MEDI-PRESCRIPTIONS</h1>
         <div className="hidden flex-1 w-full md:flex justify-end items-center md:flex-row-reverse md:items-end md:justify-between">
           <div className="flex-1 justify-end flex items-center p-3 transition-transform duration-200 ease-in-out hover:translate-x-1">
             {' '}
