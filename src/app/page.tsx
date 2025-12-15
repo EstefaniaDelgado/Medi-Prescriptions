@@ -4,7 +4,7 @@ import Services from "./components/Services";
 
 export default function Home() {
   return (
-    <main className="flex flex-col min-h-screen text-center">
+    <main className="flex flex-col text-center">
       <Navbar />
       <Header />
       <Services />

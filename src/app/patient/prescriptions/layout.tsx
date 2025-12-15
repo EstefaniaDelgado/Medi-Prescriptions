@@ -16,7 +16,7 @@ export default function PatientLayout({
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center">
+    <div className="mt-24 flex flex-col justify-center">
       <div className="bg-white dark:bg-background-secondary mx-auto my-4 lg:my-4 lg:px-4 rounded-xl w-11/12 max-w-6xl px-3">
         <div className="flex items-center justify-between py-6">
           <div className="flex items-center gap-3">

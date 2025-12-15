@@ -66,7 +66,7 @@ export default function Patient() {
 
   if (isLoading) {
     return (
-      <div className="card-container-inner p-6 flex justify-center items-center min-h-[400px]">
+      <div className="card-container-inner p-6 flex justify-center items-center min-h-100">
         <FaSpinner className="animate-spin text-blue-600" size={32} />
       </div>
     );

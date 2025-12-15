@@ -11,12 +11,14 @@ import {
   FaCertificate,
 } from "react-icons/fa";
 import { useGetPrescriptionByIdQuery } from "@/src/redux/services/prescriptionsApi";
+import { useDateFormat } from "@/src/hooks/useDateFormat";
 
 export default function DetallePrescripcion() {
   const params = useParams();
   const router = useRouter();
   const prescripcionId = params.id as string;
   const [itemSeleccionado, setItemSeleccionado] = useState(0);
+  const { formatDate, formatTime, isClient } = useDateFormat();
 
   const {
     data: prescripcion,
@@ -214,7 +216,7 @@ export default function DetallePrescripcion() {
                     Fecha de Nacimiento
                   </label>
                   <p className="text-lg text-gray-900 dark:text-white">
-                    {new Date(prescripcion.patient.birthDate).toLocaleDateString()}
+                    {formatDate(prescripcion.patient.birthDate)}
                   </p>
                 </div>
               )}
@@ -238,7 +240,7 @@ export default function DetallePrescripcion() {
                     Fecha de Creación
                   </p>
                   <p className="font-semibold text-gray-900 dark:text-white">
-                    {new Date(prescripcion.createdAt).toLocaleDateString()}
+                    {formatDate(prescripcion.createdAt)}
                   </p>
                 </div>
               </div>
@@ -252,7 +254,7 @@ export default function DetallePrescripcion() {
                     Hora
                   </p>
                   <p className="font-semibold text-gray-900 dark:text-white">
-                    {new Date(prescripcion.createdAt).toLocaleTimeString()}
+                    {formatTime(prescripcion.createdAt)}
                   </p>
                 </div>
               </div>
@@ -267,7 +269,7 @@ export default function DetallePrescripcion() {
                       Fecha de Consumo
                     </p>
                     <p className="font-semibold text-gray-900 dark:text-white">
-                      {new Date(prescripcion.consumedAt).toLocaleDateString()}
+                      {formatDate(prescripcion.consumedAt)}
                     </p>
                   </div>
                 </div>

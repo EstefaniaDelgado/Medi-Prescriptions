@@ -81,9 +81,9 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <span className="text-xl font-bold text-blue dark:text-blue">
+            <Link href={'/'} className="text-xl font-bold text-blue dark:text-blue">
               Medi-Prescriptions
-            </span>
+            </Link>
           </div>
 
           {/* Navigation Items */}

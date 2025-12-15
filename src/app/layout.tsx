@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Poppins, Playfair_Display } from "next/font/google";
 import { ReduxProvider } from "@/src/redux/providers";
 import { AuthProvider } from "@/src/contexts/AuthContext";
-import Navbar from "@/src/app/components/Navbar";
+import ConditionalNavbar from "@/src/app/components/ConditionalNavbar";
 
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
@@ -42,8 +42,8 @@ export default function RootLayout({
         <Toaster />
         <ReduxProvider>
           <AuthProvider>
-            <Navbar />
-            <main className="pt-16">{children}</main>
+            <ConditionalNavbar />
+           {children}
           </AuthProvider>
         </ReduxProvider>
       </body>

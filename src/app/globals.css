@@ -67,7 +67,7 @@ body {
 
 /* Card Container Styles */
 .card-container {
-  @apply bg-light-blue dark:bg-background-secondary mx-auto md:h-125 lg:h-110 mt-24 md:mt-28 md:mb-10 lg:px-4 rounded-xl w-11/12 max-w-6xl xl:h-120;
+  @apply bg-light-blue dark:bg-background-secondary mx-auto md:h-125 lg:h-110 mt-24 md:mt-32 md:mb-10 lg:px-4 rounded-xl w-11/12 max-w-6xl;
 }
 
 .card-container-inner{
@@ -93,4 +93,21 @@ body {
 
 .paragraph {
   @apply text-lg md:text-xl text-dark-blue dark:text-white;
+}
+
+/* Service Card Background Colors */
+.bg-yellow-card {
+  background-color: var(--yellow-card);
+}
+
+.bg-purple-card {
+  background-color: var(--purple-card);
+}
+
+.bg-blue-card {
+  background-color: var(--blue-card);
+}
+
+.bg-green-card {
+  background-color: var(--green-card);
 }
