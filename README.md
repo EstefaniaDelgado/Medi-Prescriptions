@@ -1,36 +1,168 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend – App de Prescripciones Médicas
 
-## Getting Started
+Aplicación frontend desarrollada como parte de una prueba técnica full-stack.  
+Permite a **médicos**, **pacientes** y **administradores** interactuar con el sistema de prescripciones a través de una interfaz moderna, responsiva y protegida por roles.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🧩 Stack Tecnológico
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Next.js v.16 (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- Redux (manejo de estado)
+- Fetch API
+- Recharts (dashboard Admin)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎯 Descripción General
 
-## Learn More
+El frontend consume la API desarrollada en NestJS y presenta flujos diferenciados según el rol del usuario autenticado.
 
-To learn more about Next.js, take a look at the following resources:
+### Roles y Funcionalidades
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Doctor**
+  - Crear prescripciones para pacientes
+  - Agregar y eliminar ítems dinámicamente
+  - Listar y ver el detalle de sus prescripciones
+  - Filtrar por estado y fecha
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Patient**
+  - Visualizar sus prescripciones
+  - Marcar prescripciones como consumidas
+  - Descargar prescripciones en PDF
 
-## Deploy on Vercel
+- **Admin**
+  - Visualizar métricas generales
+  - Dashboard con tarjetas y gráficos
+  - Acceso completo a la información
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Estructura del Proyecto
+
+src/
+├── app/
+│ ├── login/
+│ ├── doctor/
+│ │ └── prescriptions/
+│ │ ├── page.tsx
+│ │ ├── new/
+│ │ └── [id]/
+│ ├── patient/
+│ │ └── prescriptions/
+│ │ ├── page.tsx
+│ │ └── [id]/
+│ └── admin/
+│ └── page.tsx
+├── components/
+├── lib/
+│ ├── fetcher.ts
+│ ├── auth.ts
+│ └── guards.ts
+├── store/
+└── styles/
+
+
+---
+
+## ⚙️ Variables de Entorno
+
+Crear un archivo `.env.local` en la raíz del proyecto:
+
+    NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+
+---
+
+## 🚀 Instalación y Ejecución Local
+
+### 1. Instalar dependencias
+
+Instalar todas las dependencias del proyecto:
+
+    npm install
+
+---
+
+### 2. Levantar el servidor en desarrollo
+
+Iniciar la aplicación en modo desarrollo:
+
+    npm run dev
+
+La aplicación estará disponible en:
+
+    http://localhost:3000
+
+---
+
+## 🔐 Autenticación y Protección de Rutas
+
+La aplicación implementa autenticación basada en JWT, gestionada mediante cookies seguras desde el backend.
+
+- El login obtiene el perfil y rol del usuario.
+- El estado de autenticación se maneja de forma global.
+- Las rutas están protegidas según el rol del usuario.
+- Si un usuario intenta acceder a una ruta no autorizada, es redirigido automáticamente al login.
+
+Este enfoque garantiza que:
+- Un Doctor no pueda acceder a vistas de Admin.
+- Un Patient solo vea sus propias prescripciones.
+- El Admin tenga acceso completo al sistema.
+
+---
+
+## 📄 Manejo de Prescripciones
+
+- Listados con paginación y filtros.
+- Estados visuales para carga, error y datos vacíos.
+- Acciones claras mediante botones y feedback visual.
+- Descarga directa de PDFs desde la vista del paciente.
+
+---
+
+## 📊 Dashboard de Administración
+
+El panel de administración incluye:
+
+- Total de médicos, pacientes y prescripciones.
+- Prescripciones por estado (pending / consumed).
+- Serie temporal de prescripciones por día.
+- Visualización mediante gráficos simples y claros.
+
+---
+
+## 🎨 UX / UI
+
+- Diseño responsive (desktop y mobile).
+- Uso de Tailwind CSS para consistencia visual.
+- Estados de carga y error bien definidos.
+- Toasts para acciones importantes (crear, consumir, error).
+- Persistencia de filtros mediante query params.
+- Tema dark/light y preferencia persistida.
+
+---
+
+## 🧪 Testing
+
+El proyecto incluye pruebas básicas de componentes y lógica crítica.
+
+Comando para ejecutar tests:
+
+    npm run test
+
+---
+
+## 📌 Notas Finales
+
+- La aplicación asume usuarios creados mediante seed en el backend.
+- No existe catálogo de productos; los ítems se ingresan manualmente.
+- El frontend está diseñado como un MVP, priorizando claridad, mantenibilidad y experiencia de usuario.
+
+---
+
+## 📜 Licencia
+
+Proyecto desarrollado como prueba técnica full-stack.
