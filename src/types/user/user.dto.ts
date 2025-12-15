@@ -13,6 +13,12 @@ export interface RegisterUserDto extends CreateUserDto {
   confirmPassword: string;
 }
 
+export interface UpdateUserDto {
+  name?: string;
+  email?: string;
+  role?: 'patient' | 'doctor' | 'admin';
+}
+
 export interface User {
   id: string;
   name: string;

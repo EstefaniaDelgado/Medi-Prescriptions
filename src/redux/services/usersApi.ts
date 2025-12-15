@@ -1,6 +1,7 @@
+import { usersEP } from "@/src/config/endpoints";
 import { baseApi } from "./baseApi";
-import { usersEP } from "@/config/endpoints";
-import { UpdateUserDto, UserResponseDto } from "@/types/user/user.dto";
+import { UserResponseDto, UpdateUserDto } from "@/src/types/user/user.dto";
+
 
 const usersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

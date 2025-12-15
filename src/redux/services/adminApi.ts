@@ -1,12 +1,12 @@
+import { adminEP } from "@/src/config/endpoints";
 import { baseApi } from "./baseApi";
-import { adminEP } from "@/config/endpoints";
-import { 
-  AdminMetricsDto, 
-  CreateUserDto, 
-  AssignRoleDto 
-} from "@/types/admin/admin.dto";
-import { UserResponseDto } from "@/types/user/user.dto";
-import { ApiResponse } from "@/types/apiResponse";
+
+import { AdminMetricsDto, AssignRoleDto } from "@/src/types/admin/admin.dto";
+import { ApiResponse } from "@/src/types/apiResponse";
+import { CreateUserDto, UserResponseDto } from "@/src/types/user/user.dto";
+
+
+
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
