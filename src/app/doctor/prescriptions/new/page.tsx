@@ -21,6 +21,7 @@ export default function NuevaPrescripcion() {
   const router = useRouter();
   const [createPrescription, { isLoading }] = useCreatePrescriptionMutation();
   const { data: patientsData } = useGetPatientsQuery({ limit: 100 });
+  console.log("info", patientsData)
   const [items, setItems] = useState<PrescriptionItem[]>([]);
   const [notes, setNotes] = useState("");
   const [formData, setFormData] = useState({

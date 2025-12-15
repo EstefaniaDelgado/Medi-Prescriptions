@@ -12,13 +12,13 @@ const services = [
     title: 'Encuentra medicos',
     description: 'Confirma tus citas rapidamente.',
     image: '/doctor.PNG',
-    color: 'purple-card',
+    color: 'green-card',
   },
   {
     title: 'Medicinas 24/7',
     description: 'Recibe tus medicinas en la puerta de tu casa.',
     image: '/pills.png',
-    color: 'green-card',
+    color: 'purple-card',
   },
   {
     title: 'Examenes de laboratorio',
@@ -38,13 +38,13 @@ export default function Services() {
         {services.map((service, index) => (
           <div
             key={index}
-            className={`flex flex-col rounded-2xl text-dark-blue text-start bg-${service.color} bg-yellow-card p-2 space-y-3 $ `}
+            className={`flex flex-col rounded-2xl text-dark-blue text-start bg-${service.color} p-3 space-y-3`}
           >
             <h3 className="text-xl font-semibold ">{service.title}</h3>
             <p className="font-normal">{service.description}</p>
             <div className={`flex-1 flex justify-end items-center ${service.color === 'blue-card' ? 'mb-7' : ''}`}>
               <div className='text-white bg-dark-blue rounded-full w-fit p-2'>
-                <FaArrowRight />
+                <FaArrowRight className='transition-all duration-200 ease-in-out hover:opacity-60 cursor-pointer' />
               </div>
               <Image
                 src={service.image}

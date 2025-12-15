@@ -1,14 +1,15 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { useLoginMutation } from "@/src/redux/services/authApi";
-import { LoginUserDto } from "@/src/types/user/user.dto";
-import { useAuthContext } from "@/src/contexts/AuthContext";
+import { useState } from 'react';
+import Image from 'next/image';
+import { AiOutlineArrowRight } from 'react-icons/ai';
+import { useLoginMutation } from '@/src/redux/services/authApi';
+import { LoginUserDto } from '@/src/types/user/user.dto';
+import { useAuthContext } from '@/src/contexts/AuthContext';
 
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface LoginError {
   data?: {
@@ -18,10 +19,10 @@ interface LoginError {
 
 export default function Login() {
   const [credentials, setCredentials] = useState<LoginUserDto>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>('');
   const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
 
@@ -29,47 +30,45 @@ export default function Login() {
 
   const redirectByRole = (role: string) => {
     switch (role.toLowerCase()) {
-      case "admin":
-        router.push("/admin");
+      case 'admin':
+        router.push('/admin');
         break;
-      case "doctor":
-        router.push("/doctor/prescriptions");
+      case 'doctor':
+        router.push('/doctor/prescriptions');
         break;
-      case "patient":
-        router.push("/patient/prescriptions");
+      case 'patient':
+        router.push('/patient/prescriptions');
         break;
       default:
-        router.push("/login");
+        router.push('/login');
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     if (!credentials.email || !credentials.password) {
-      setError("Por favor completa todos los campos");
+      setError('Por favor completa todos los campos');
       return;
     }
 
-    const toastId = toast.loading("Iniciando sesión...");
+    const toastId = toast.loading('Iniciando sesión...');
     try {
       await login(credentials).unwrap();
-      toast.success("Sesión iniciada", { id: toastId });
-      
+      toast.success('Sesión iniciada', { id: toastId });
+
       // Esperar un momento para que el contexto se actualice
       setTimeout(() => {
         if (user?.role) {
           redirectByRole(user.role);
         } else {
-          router.push("/");
+          router.push('/');
         }
       }, 100);
     } catch (err) {
-      toast.error("Error al iniciar sesión", { id: toastId });
-      setError(
-        (err as LoginError)?.data?.message || "Error al iniciar sesión"
-      );
+      toast.error('Error al iniciar sesión', { id: toastId });
+      setError((err as LoginError)?.data?.message || 'Error al iniciar sesión');
     }
   };
 
@@ -79,11 +78,11 @@ export default function Login() {
       ...credentials,
       [name]: value,
     });
-    if (error) setError("");
+    if (error) setError('');
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="min-h-screen flex items-center justify-center">
       <section className="card-container-inner p-3 flex flex-col md:flex-row gap-5 xl:gap-10 items-center justify-around">
         <div className="md:flex-1">
           <Image
@@ -95,9 +94,11 @@ export default function Login() {
           />
         </div>
         <article className="dark:text-white text-center md:w-5/12 md:px-4">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-dark-blue dark:text-blue">
-            Medi-Prescription
-          </h2>
+          <Link href={'/'}>
+                      <h2 className="text-4xl lg:text-5xl font-extrabold text-dark-blue dark:text-blue">
+              Medi-Prescription
+            </h2>
+          </Link>
           <p className="text-lg">Tu salud, tus medicinas!</p>
 
           {error && (
@@ -133,7 +134,7 @@ export default function Login() {
                 disabled={isLoading}
                 className="btn-primary w-1/2 md:w-52 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? "Ingresando..." : "Ingresar"}
+                {isLoading ? 'Ingresando...' : 'Ingresar'}
               </button>
               <AiOutlineArrowRight
                 className="bg-background-btn text-dark-blue p-2 rounded-full font-semibold cursor-pointer"

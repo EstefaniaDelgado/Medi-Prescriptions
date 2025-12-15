@@ -20,7 +20,7 @@ export default function DoctorLayout({
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center">
+    <div className="mt-24 lx:mt-0 flex flex-col">
       <div className="bg-light-blue dark:bg-background-secondary mx-auto my-4 lg:my-4 lg:px-4 rounded-xl w-11/12 max-w-6xl  px-3">
         <div className="flex items-center justify-between py-6">
           <div className="flex items-center gap-3 ">
