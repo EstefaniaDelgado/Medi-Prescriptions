@@ -10,45 +10,68 @@ function decodeJWT(token: string) {
   }
 }
 
+function getRoleRoute(role: string): string {
+  switch (role.toLowerCase()) {
+    case "admin":
+      return "/admin";
+    case "doctor":
+      return "/doctor";
+    case "patient":
+      return "/patient";
+    default:
+      return "/login";
+  }
+}
+
+// Función helper para verificar si el usuario tiene acceso a la ruta
+function hasRouteAccess(pathname: string, userRole: string): boolean {
+  const role = userRole.toLowerCase();
+
+  if (pathname.startsWith("/admin")) return role === "admin";
+  if (pathname.startsWith("/doctor")) return role === "doctor";
+  if (pathname.startsWith("/patient")) return role === "patient";
+
+  return true;
+}
+
 export async function proxy(req: NextRequest) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
   const { pathname } = req.nextUrl;
 
-  // Rutas públicas permitidas
-  const publicRoutes = ["/login", "/"];
-  const isPublic = publicRoutes.includes(pathname);
+  // Rutas públicas que no requieren autenticación
+  const publicRoutes = ["/", "/login"];
+  const isPublicRoute = publicRoutes.includes(pathname);
 
-  // Si es ruta pública, permitir acceso
-  if (isPublic) {
+  // Decodificar token si existe
+  const payload = accessToken ? decodeJWT(accessToken) : null;
+  const userRole = payload?.role;
+
+  if (pathname === "/login" && accessToken && userRole) {
+    const roleRoute = getRoleRoute(userRole);
+    return NextResponse.redirect(new URL(roleRoute, req.url));
+  }
+
+  if (isPublicRoute) {
     return NextResponse.next();
   }
 
-  // Si no hay ningún token (ni access ni refresh), redirigir al login
   if (!accessToken && !refreshToken) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // Decodificar token para obtener roles (solo si existe accessToken)
-  if (accessToken) {
-    // const payload = decodeJWT(accessToken);
-    // if (payload?.role) {
-    //   // Ejemplo: Control de acceso por roles
-    //   if (pathname.startsWith("/admin") && payload.role !== "ADMIN") {
-    //     return NextResponse.redirect(new URL("/", req.url));
-    //   }
-    //   if (pathname.startsWith("/doctor") && payload.role !== "DOCTOR") {
-    //     return NextResponse.redirect(new URL("/", req.url));
-    //   }
-    // }
+  if (accessToken && !userRole) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // Si hay al menos uno de los tokens, permitir acceso
+  if (userRole && !hasRouteAccess(pathname, userRole)) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  // matcher: ["/doctor/:path*", "/patient/:path*", "/admin/:path*"],
-  matcher: [],
+  matcher: ["/login", "/doctor/:path*", "/patient/:path*", "/admin/:path*"],
 };

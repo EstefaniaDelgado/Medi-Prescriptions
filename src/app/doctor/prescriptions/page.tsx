@@ -1,22 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {
-  FaDownload,
-  FaCheck,
-  FaTimes,
-  FaClock,
-  FaSpinner,
-} from "react-icons/fa";
-import {
-  useGetPatientPrescriptionsQuery,
-  useConsumePrescriptionMutation,
-  useDownloadPatientPrescriptionPdfMutation,
-} from "@/src/redux/services/prescriptionsApi";
+import { useRouter } from "next/navigation";
+import { FaPrescriptionBottleAlt, FaTimes, FaSpinner } from "react-icons/fa";
+import Link from "next/link";
+import { useGetDoctorPrescriptionsQuery } from "@/src/redux/services/prescriptionsApi";
 import { PrescriptionStatus } from "@/src/types/prescription/prescription.dto";
 
-export default function Patient() {
-  const [fechaFiltro, setFechaFiltro] = useState("");
+export default function Doctor() {
+  const router = useRouter();
+  const [fechaDesde, setFechaDesde] = useState("");
+  const [fechaHasta, setFechaHasta] = useState("");
   const [estadoFiltro, setEstadoFiltro] = useState<PrescriptionStatus | "">("");
   const [paginaActual, setPaginaActual] = useState(1);
   const itemsPorPagina = 10;
@@ -25,44 +19,18 @@ export default function Patient() {
     data: prescriptionsData,
     isLoading,
     error,
-  } = useGetPatientPrescriptionsQuery({
+  } = useGetDoctorPrescriptionsQuery({
+    mine: true,
     page: paginaActual,
     limit: itemsPorPagina,
     status: estadoFiltro || undefined,
-    from: fechaFiltro || undefined,
+    from: fechaDesde || undefined,
+    to: fechaHasta || undefined,
   });
-
-  const [consumePrescription] = useConsumePrescriptionMutation();
-  const [downloadPdf] = useDownloadPatientPrescriptionPdfMutation();
 
   const prescripciones = prescriptionsData?.data || [];
   const totalPaginas = prescriptionsData?.pagination?.totalPages || 1;
-
   const datosPaginados = prescripciones;
-
-  const marcarComoConsumida = async (id: string) => {
-    try {
-      await consumePrescription(id).unwrap();
-    } catch (error) {
-      console.error("Error consuming prescription:", error);
-    }
-  };
-
-  const descargarPDF = async (id: string) => {
-    try {
-      const blob = await downloadPdf(id).unwrap();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `prescription-${id}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error downloading PDF:', error);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -85,48 +53,56 @@ export default function Patient() {
   return (
     <div className="card-container-inner p-6">
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-dark-blue dark:text-blue">
-            Mis Prescripciones
-          </h1>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-3">
-          <input
-            type="date"
-            value={fechaFiltro}
-            onChange={(e) => {
-              setFechaFiltro(e.target.value);
-              setPaginaActual(1);
-            }}
-            className="w-full sm:max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-          />
-          <select
-            value={estadoFiltro}
-            onChange={(e) => {
-              setEstadoFiltro(e.target.value as PrescriptionStatus | "");
-              setPaginaActual(1);
-            }}
-            className="w-full sm:max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-          >
-            <option value="">Filtrar por estado</option>
-            <option value={PrescriptionStatus.CONSUMED}>Consumida</option>
-            <option value={PrescriptionStatus.PENDING}>Pendiente</option>
-          </select>
-          {(fechaFiltro || estadoFiltro) && (
-            <button
-              onClick={() => {
-                setFechaFiltro("");
-                setEstadoFiltro("");
-                setPaginaActual(1);
-              }}
-              className="px-3 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 flex items-center gap-2"
-              title="Limpiar filtros"
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="date"
+              value={fechaDesde}
+              onChange={(e) => setFechaDesde(e.target.value)}
+              placeholder="Fecha desde"
+              className="w-full sm:max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            />
+            <input
+              type="date"
+              value={fechaHasta}
+              onChange={(e) => setFechaHasta(e.target.value)}
+              placeholder="Fecha hasta"
+              className="w-full sm:max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            />
+            <select
+              value={estadoFiltro}
+              onChange={(e) =>
+                setEstadoFiltro(e.target.value as PrescriptionStatus | "")
+              }
+              className="w-full sm:max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
-              <FaTimes size={14} />
-              Limpiar
-            </button>
-          )}
+              <option value="">Filtrar por estado</option>
+              <option value={PrescriptionStatus.CONSUMED}>Consumida</option>
+              <option value={PrescriptionStatus.PENDING}>Pendiente</option>
+            </select>
+            {(fechaDesde || fechaHasta || estadoFiltro) && (
+              <button
+                onClick={() => {
+                  setFechaDesde("");
+                  setFechaHasta("");
+                  setEstadoFiltro("");
+                  setPaginaActual(1);
+                }}
+                className="px-3 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 flex items-center gap-2"
+                title="Limpiar filtros"
+              >
+                <FaTimes size={14} />
+                Limpiar
+              </button>
+            )}
+          </div>
+          <button
+            onClick={() => router.push("/doctor/prescriptions/new")}
+            className="btn-primary flex items-center gap-2 px-4 py-2 text-sm whitespace-nowrap"
+          >
+            <FaPrescriptionBottleAlt size={16} />
+            Nueva Prescripción
+          </button>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
@@ -140,7 +116,7 @@ export default function Patient() {
                   Fecha
                 </th>
                 <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  Médico
+                  Paciente
                 </th>
                 <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">
                   Medicamentos
@@ -160,14 +136,14 @@ export default function Patient() {
                     key={item.id}
                     className="hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
-                    <td className="px-3 sm:px-5 py-4 text-xs sm:text-sm text-gray-900 dark:text-gray-100 font-mono">
+                    <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm text-gray-900 dark:text-gray-100 font-mono">
                       {item.code}
                     </td>
                     <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm text-gray-900 dark:text-gray-100">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm text-gray-900 dark:text-gray-100">
-                      {item.author.user.name}
+                      {item.patient.user.name}
                     </td>
                     <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm text-gray-900 dark:text-gray-100 hidden sm:table-cell">
                       {item.items.length} medicamento(s)
@@ -186,24 +162,12 @@ export default function Patient() {
                       </span>
                     </td>
                     <td className="px-3 sm:px-6 py-4">
-                      <div className="flex gap-1">
-                        {item.status === PrescriptionStatus.PENDING && (
-                          <button
-                            onClick={() => marcarComoConsumida(item.id)}
-                            className="p-1 text-gray-400 dark:text-gray-600 hover:text-green-600 dark:hover:text-green-400"
-                            title="Marcar como consumida"
-                          >
-                            <FaCheck size={14} />
-                          </button>
-                        )}
-                        <button
-                          onClick={() => descargarPDF(item.id)}
-                          className="p-1 text-gray-400 dark:text-gray-600 hover:text-blue-600 dark:hover:text-blue-400"
-                          title="Descargar PDF"
-                        >
-                          <FaDownload size={14} />
-                        </button>
-                      </div>
+                      <Link
+                        href={`/doctor/prescriptions/${item.id}`}
+                        className="btn-primary px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm"
+                      >
+                        Ver
+                      </Link>
                     </td>
                   </tr>
                 ))
@@ -215,7 +179,8 @@ export default function Patient() {
                         No se encontraron prescripciones
                       </p>
                       <p className="text-sm">
-                        Intenta ajustar los filtros para ver más resultados
+                        Intenta ajustar los filtros o crear una nueva
+                        prescripción
                       </p>
                     </div>
                   </td>
