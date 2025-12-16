@@ -65,7 +65,7 @@ export default function Login() {
         } else {
           router.push('/');
         }
-      }, 100);
+      }, 1000);
     } catch (err) {
       toast.error('Error al iniciar sesión', { id: toastId });
       setError((err as LoginError)?.data?.message || 'Error al iniciar sesión');
