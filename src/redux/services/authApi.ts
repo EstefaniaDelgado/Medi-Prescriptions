@@ -90,4 +90,5 @@ export const {
   useLogoutMutation,
   useRefreshTokenMutation,
   useGetMeQuery,
+  useLazyGetMeQuery,
 } = authApi;

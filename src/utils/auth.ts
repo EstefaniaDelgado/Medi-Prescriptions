@@ -44,7 +44,6 @@ export function getUserRoleFromToken(): string | null {
   if (!token) return null;
 
   const decoded = decodeJWT(token);
-  console.log("ROLE: ", decoded?.role);
   return decoded?.role || null;
 }
 
