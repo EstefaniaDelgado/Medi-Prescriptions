@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useAuthContext } from "@/src/contexts/AuthContext";
+import { useGetMeQuery } from "@/src/redux/services/authApi";
 import { FaSpinner } from "react-icons/fa";
 import { useDateTime } from "@/src/hooks/useDateTime";
 
 export default function DoctorLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const { user, isLoading } = useAuthContext();
+  const { data: user, isLoading } = useGetMeQuery();
   const dateTime = useDateTime();
 
   if (isLoading) {

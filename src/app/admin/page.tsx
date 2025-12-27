@@ -8,8 +8,6 @@ import {
   FaSpinner,
 } from "react-icons/fa";
 import {
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -45,12 +43,23 @@ export default function AdminDashboard() {
   }
 
   const datosPorEstado = [
-    { name: "Consumida", value: metrics.byStatus.consumed || 0, color: "#10B981" },
-    { name: "Pendiente", value: metrics.byStatus.pending || 0, color: "#F59E0B" },
+    {
+      name: "Consumida",
+      value: metrics.byStatus.consumed || 0,
+      color: "#10B981",
+    },
+    {
+      name: "Pendiente",
+      value: metrics.byStatus.pending || 0,
+      color: "#F59E0B",
+    },
   ];
 
-  const datosSerieDiaria = metrics.byDay.map((item: any) => ({
-    fecha: new Date(item.date).toLocaleDateString('es-ES', { month: '2-digit', day: '2-digit' }),
+  const datosSerieDiaria = metrics.byDay.map((item) => ({
+    fecha: new Date(item.date).toLocaleDateString("es-ES", {
+      month: "2-digit",
+      day: "2-digit",
+    }),
     prescripciones: item.count,
   }));
 
@@ -140,11 +149,18 @@ export default function AdminDashboard() {
               Top Médicos por Volumen
             </h2>
             <div className="space-y-3">
-              {metrics.topDoctors.map((doctor: any, index: number) => (
-                <div key={doctor.doctorId} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              {metrics.topDoctors.map((doctor, index: number) => (
+                <div
+                  key={doctor.doctorId}
+                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                >
                   <div className="flex items-center gap-3">
-                    <span className="text-lg font-bold text-blue-600 dark:text-blue-400">#{index + 1}</span>
-                    <span className="text-gray-900 dark:text-white">Doctor: {doctor.name}</span>
+                    <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                      #{index + 1}
+                    </span>
+                    <span className="text-gray-900 dark:text-white">
+                      Doctor(a): {doctor.name}
+                    </span>
                   </div>
                   <span className="text-lg font-semibold text-green-600 dark:text-green-400">
                     {doctor.count} prescripciones

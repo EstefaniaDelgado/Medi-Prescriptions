@@ -7,6 +7,7 @@ import {
   UpdatePrescriptionStatusDto,
   FilterPrescriptionsDto,
   PaginatedPrescriptionsResponse,
+  MetricsResponseDto,
 } from "@/src/types/prescription/prescription.dto";
 import { prescriptionsEP } from "@/src/config/endpoints";
 
@@ -145,12 +146,16 @@ const prescriptionsApi = baseApi.injectEndpoints({
       invalidatesTags: ["Prescriptions"],
     }),
 
-    getMetrics: builder.query<any, { from?: string; to?: string } | void>({
+    getMetrics: builder.query<
+      MetricsResponseDto,
+      { from?: string; to?: string } | void
+    >({
       query: (filters = {}) => ({
         url: "/prescriptions/admin/metrics",
         params: filters,
       }),
-      transformResponse: (response: ApiResponse<any>) => response.data,
+      transformResponse: (response: ApiResponse<MetricsResponseDto>) =>
+        response.data,
       providesTags: ["Metrics"],
     }),
   }),

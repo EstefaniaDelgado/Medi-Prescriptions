@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Poppins, Playfair_Display } from "next/font/google";
 import { ReduxProvider } from "@/src/redux/providers";
-import { AuthProvider } from "@/src/contexts/AuthContext";
 import ConditionalNavbar from "@/src/app/components/ConditionalNavbar";
 
 import "./globals.css";
@@ -41,10 +40,8 @@ export default function RootLayout({
       >
         <Toaster />
         <ReduxProvider>
-          <AuthProvider>
-            <ConditionalNavbar />
-           {children}
-          </AuthProvider>
+          <ConditionalNavbar />
+          {children}
         </ReduxProvider>
       </body>
     </html>

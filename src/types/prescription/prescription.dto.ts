@@ -74,7 +74,7 @@ export interface FilterPrescriptionsDto {
   to?: string;
   page?: number;
   limit?: number;
-  order?: 'asc' | 'desc';
+  order?: "asc" | "desc";
 }
 
 export interface PaginatedPrescriptionsResponse {
@@ -87,4 +87,25 @@ export interface PaginatedPrescriptionsResponse {
     hasNext: boolean;
     hasPrev: boolean;
   };
+}
+
+export interface MetricsResponseDto {
+  totals: {
+    doctors: number;
+    patients: number;
+    prescriptions: number;
+  };
+  byStatus: {
+    consumed: number;
+    pending: number;
+  };
+  byDay: Array<{
+    date: string;
+    count: number;
+  }>;
+  topDoctors: Array<{
+    doctorId: string;
+    name: string;
+    count: number;
+  }>;
 }

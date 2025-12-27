@@ -4,10 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { FaPills, FaHeartbeat } from 'react-icons/fa';
-import { useAuthContext } from '@/src/contexts/AuthContext';
+import { useGetMeQuery } from '@/src/redux/services/authApi';
 
 export const Header = () => {
-  const { user } = useAuthContext();
+  const { data: user } = useGetMeQuery(undefined, {
+    // Solo ejecutar si hay cookies de sesión
+    skip: typeof window !== 'undefined' && !document.cookie.includes('accessToken')
+  });
   return (
     <div className="relative flex flex-col card-container">
       <section className=" space-y-4 h-full pt-4 md:pt-5 w-full flex flex-col items-center">

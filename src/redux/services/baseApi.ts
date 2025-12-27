@@ -36,8 +36,11 @@ export const baseApi = createApi({
     const status = error?.status as number | undefined;
     const message =
       (error?.data as { message?: string })?.message ?? "Error desconocido";
+    const accessTokenError =
+      message.includes("Access token not received") ||
+      message.includes("Token has expired");
 
-    if (status === 401 && message.includes("Token has expired")) {
+    if (status === 401 && accessTokenError) {
       const refreshSuccess = await refreshToken();
 
       if (refreshSuccess) {

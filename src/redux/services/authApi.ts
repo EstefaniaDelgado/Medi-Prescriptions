@@ -4,7 +4,6 @@ import {
   CreateUserDto,
   LoginUserDto,
   UserResponseDto,
-  AuthResponse,
 } from "@/src/types/user/user.dto";
 import { ApiResponse } from "@/src/types/apiResponse";
 
@@ -42,8 +41,6 @@ const authApi = baseApi.injectEndpoints({
         body: credentials,
       }),
       transformResponse: (response: ApiResponse<null>) => {
-        // El backend devuelve { success: true, message: 'Successful login', data: null }
-        // Los datos del usuario están en las cookies, no en la respuesta
         return { message: response.message };
       },
       invalidatesTags: ["Auth", "Users"],
@@ -58,7 +55,6 @@ const authApi = baseApi.injectEndpoints({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
-          // Limpiar el caché de getMe después del logout exitoso
           dispatch(authApi.util.resetApiState());
         } catch {}
       },
@@ -90,4 +86,5 @@ export const {
   useLogoutMutation,
   useRefreshTokenMutation,
   useGetMeQuery,
+  useLazyGetMeQuery,
 } = authApi;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaChevronDown,
   FaUser,
@@ -12,8 +12,8 @@ import {
   FaSpinner,
 } from "react-icons/fa";
 import Link from "next/link";
-import { useAuth } from "@/src/hooks/useAuth";
-import { useAuthContext } from "@/src/contexts/AuthContext";
+import { useGetMeQuery, useLogoutMutation } from "@/src/redux/services/authApi";
+import { useRouter } from "next/navigation";
 
 const ESPECIALIDADES = [
   "Medicina General",
@@ -29,14 +29,26 @@ const ESPECIALIDADES = [
 export default function Navbar() {
   const [mostrarEspecialidades, setMostrarEspecialidades] = useState(false);
   const [mostrarMenuUsuario, setMostrarMenuUsuario] = useState(false);
-  const { logout } = useAuth();
-  const { user, isLoading, error } = useAuthContext();
+  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const { data: user, isLoading } = useGetMeQuery(undefined);
+  const [logout] = useLogoutMutation();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const userRole = user?.role;
 
   const handleLogout = async () => {
-    await logout();
-    setMostrarMenuUsuario(false);
+    try {
+      await logout().unwrap();
+    } catch (error) {
+      console.error("Error durante logout:", error);
+    } finally {
+      setMostrarMenuUsuario(false);
+      router.push("/login");
+    }
   };
 
   const getMenuOptions = () => {
@@ -81,7 +93,10 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <Link href={'/'} className="text-xl font-bold text-blue dark:text-blue">
+            <Link
+              href={"/"}
+              className="text-xl font-bold text-blue dark:text-blue"
+            >
               Medi-Prescriptions
             </Link>
           </div>
@@ -121,7 +136,7 @@ export default function Navbar() {
             </div>
 
             {/* User Menu */}
-            {isLoading ? (
+            {!mounted || isLoading ? (
               <div className="flex items-center gap-2 p-1">
                 <FaSpinner className="animate-spin text-blue-600" size={16} />
               </div>

@@ -1,11 +1,11 @@
 "use client";
-import { useAuthContext } from "@/src/contexts/AuthContext";
+import { useGetMeQuery } from "@/src/redux/services/authApi";
 import { FaUser, FaSpinner } from "react-icons/fa";
 
 export default function PatientLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const { user, isLoading } = useAuthContext();
+  const { data: user, isLoading } = useGetMeQuery();
 
   if (isLoading) {
     return (
